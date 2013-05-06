@@ -1,13 +1,3 @@
----
-title: dotfiles
-description: My dotfiles
-author: Tyler Powers (ripped off from Ryan Crosby)
-tags: terminal
-created: 2012 Feb 19
-modified: 2011 Apr 16
-
----
-
 dotfiles
 ========
 
