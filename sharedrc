@@ -1,0 +1,70 @@
+# Todo.txt
+#alias t="$HOME/.bash/todo/todo.sh -d $HOME/.bash/todo/todo.cfg"
+#source "$HOME/.bash/todo/todo_completion"
+#complete -F _todo t
+
+# JSON Parsing shortcut
+alias pp="python -m json.tool"
+
+# Custom Command Line Programs
+export PATH="${HOME}/Downloads/sqlcipher:/usr/local/bin:${HOME}/.bin:${PATH}"
+
+# RVM
+# Load RVM into a shell session *as a function*
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+# Source our local file, for stuff we don't want to share
+#if [ -f ~/.local_bashrc ]; then
+#  source ~/.local_bashrc
+#fi
+# Easier way to right the above snippet
+[[ -s ~/.local_bashrc ]] && . ~/.local_bashrc
+
+# Add RVM to PATH for scripting
+PATH=$PATH:$HOME/.rvm/bin
+
+alias gsu="git submodule update --recursive --init"
+
+
+#### Tumbleweed config ####
+
+export PROJECT_PATH="${HOME}/Code/ios"
+
+# App_GUID seeds all the other environment variables. Call this to reset everything without sourcing bashrc
+function cc_set_app_guid() {
+    APP_GUID=$(find ~/Library/Application\ Support/iPhone\ Simulator/6.0/Applications/ -path '*Tumbleweed.app' | cut -d/ -f10 | head -1)
+    export APP_GUID
+    export EVENT_OID="kGdRaEeTd8"
+
+    export APP_PATH="/Users/gr4yscale/Library/Application Support/iPhone Simulator/6.0/Applications/${APP_GUID}"
+    export EVENT_DB_PATH="${APP_PATH}/Library/databases/${EVENT_OID}/${EVENT_OID}.sqlite3"
+    export USER_DB_PATH="${APP_PATH}/Library/databases/app/tumbleweed.sqlite3"
+
+    alias sqldb='sqlite3 "${EVENT_DB_PATH}"'
+    alias userdb='sqlite3 "${USER_DB_PATH}"'
+    alias deploydb='zip -j ${PROJECT_PATH}/Tumbleweed/Resources/assets/databases/kGdRaEeTd8.zip "${EVENT_DB_PATH}"'
+}
+cc_set_app_guid
+
+alias ios='cd ${PROJECT_PATH}'
+alias cdsim='cd "${APP_PATH}"'
+
+alias sqlitecc="sqlite3 -column -cmd \"PRAGMA key='c60242c63949c47d2c31c3c5673d1b0437f57a1b27817332bf05b4a268bcd0c6'\""
+
+
+#setup paths for android calabash
+
+export ANDROID_HOME="${HOME}/Android SDK"
+export ANDROID_SDK=$ANDROID_HOME
+export JAVA_HOME=$(/usr/libexec/java_home)
+
+PATH=$PATH:"/Applications/apache-ant-1.8.4/bin"
+PATH=$PATH:"${HOME}/Android SDK/platform-tools"
+PATH=$PATH:"${HOME}/Android SDK/tools"
+
+
+export ANDROID_NDK_ROOT="${HOME}/android-ndk-r8e"
+
+export PATH=$PATH:$ANDROID_NDK_ROOT:$PATH
+
+export PATH
