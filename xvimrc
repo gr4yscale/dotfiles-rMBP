@@ -1,0 +1,35 @@
+set nocompatible
+set encoding=utf-8
+
+let mapleader = ","
+
+" Yank text to the OS X clipboard
+noremap <leader>y "*y
+noremap <leader>yy "*Y
+
+" Preserve indentation while pasting text from the OS X clipboard
+noremap <leader>p :set paste<CR>:put  *<CR>:set nopaste<CR>
+
+
+" line break without breaking words
+set wrap
+set linebreak
+set nolist  " list disables linebreak
+
+
+" define symbols for hidden chars
+set listchars=tab:▸\ ,eol:¬ " Use symbols for tabstops and EOLs
+
+" toggle hidden chars
+nnoremap <leader>l :set list!<CR>
+
+
+" Set Linenumbering
+set relativenumber
+
+" backspace over everything in insert mode
+set backspace=indent,eol,start
+
+
+" better ESC
+imap jk <Esc>
