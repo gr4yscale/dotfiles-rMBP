@@ -4,3 +4,5 @@ if [ -f ~/.bashrc ]; then
   source ~/.bashrc
 fi
 
+#export THUMBTACK_CODE_SIGN_IDENTITY="iPhone Developer: TYLER POWERS (8H99368PP7)"
+

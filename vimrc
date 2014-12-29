@@ -26,8 +26,9 @@ Bundle 'tpope/vim-markdown'
 "Bundle 'Shougo/neocomplcache'
 "Bundle 'osyo-manga/neocomplcache-clang_complete'
 
+
 Bundle 'jgoulah/cocoa.vim'
-Bundle 'wincent/Command-T'
+Bundle 'kien/ctrlp.vim'
 Bundle 'majutsushi/tagbar'
 "Bundle 'xolox/vim-easytags'
 
@@ -81,6 +82,7 @@ set foldlevel=1
 set swapfile
 set dir=~/tmp
 set backupdir=~/tmp
+set backspace=indent,eol,start
 
 let mapleader=","
 
@@ -166,6 +168,10 @@ let g:clang_complete_auto=1
 "cocoa.vim
 map <leader>l :ListMethods
 
+"ctrl-p
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 0       " start searching in current dir"
 
 "tagbar
 nmap <Leader>b :TagbarToggle<CR>
@@ -208,3 +214,10 @@ let g:tagbar_type_objc = {
 
 "look for tags in current dir, then fallback on ios repo
 :set tags=./tags;~/Code/ios/Tumbleweed/src/tags
+
+
+"use ack instead of grep
+set grepprg=ack\ --column\ --ignore-file=is:tags
+set grepformat=%f:%l:%c:%m
+
+set grepprg+=\ --ignore-dir=build

@@ -1,5 +1,4 @@
 # Source our nice prompt
-source ~/.bash/prompt.sh
 
 # make ls command show color output
 alias ls="ls -G"
@@ -9,3 +8,5 @@ export LSCOLORS=GxFxCxDxBxegedabagaced
 
 # Source the shared resource configuration file
 source ~/dotfiles/sharedrc
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
