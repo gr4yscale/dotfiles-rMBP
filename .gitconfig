@@ -1,0 +1,10 @@
+[user]
+	name = Tyler Powers
+	email = gr4yscale@gmail.com
+[core]
+	editor = vim
+	excludesfile = ~/.gitignore
+[credential]
+	helper = osxkeychain
+[color "diff"]
+	whitespace = red reverse
