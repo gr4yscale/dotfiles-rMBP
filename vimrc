@@ -13,21 +13,14 @@ Bundle 'gmarik/vundle'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/nerdcommenter'
-Bundle 'eraserhd/vim-ios'
-Bundle 'groenewege/vim-less'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'pangloss/vim-javascript'
-Bundle 'tpope/vim-markdown'
-"Bundle 'tokorom/clang_complete'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'pangloss/vim-javascript'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'scrooloose/syntastic'
 
-"Bundle 'Rip-Rip/clang_complete'
-"Bundle 'tokorom/clang_complete-getopts-ios'
+" lint file when it opens
+let g:syntastic_check_on_open=1
 
-"Bundle 'Shougo/neocomplcache'
-"Bundle 'osyo-manga/neocomplcache-clang_complete'
-
-
-Bundle 'jgoulah/cocoa.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'majutsushi/tagbar'
 "Bundle 'xolox/vim-easytags'
@@ -36,8 +29,27 @@ Bundle 'tpope/vim-surround'
 Bundle 'ervandew/supertab'
 Bundle 'garbas/snipmate.vim'
 Bundle 'Raimondi/delimitMate'
-
 Bundle 'thinca/vim-prettyprint'
+
+" Autocompletion
+Plugin 'Valloric/YouCompleteMe'
+ 
+" These are the tweaks I apply to YCM's config, you don't need them but they
+" might help.
+" " YCM gives you popups and splits by default that some people might not
+" like, so these should tidy it up a bit for you.
+let g:ycm_add_preview_to_completeopt=0
+let g:ycm_confirm_extra_conf=0
+
+"make completion behave like an ide
+set completeopt=menu,menuone,longest
+set pumheight=15
+set ofu=syntaxcomplete#Complete
+"set completeopt-=preview
+
+" Autocompletion for js
+Plugin 'marijnh/tern_for_vim'
+
 
 " Solarized
 syntax enable
@@ -60,6 +72,8 @@ nmap <silent> <c-n> :NERDTreeToggle<CR>
 let g:netrw_home=$HOME . "/.vimfiles"
 
 filetype plugin indent on " filetype detection[ON] plugin[ON] indent[ON]
+au FileType javascript call JavaScriptFold()
+
 set t_Co=256              " enable 256-color mode.
 set number                " show line numbers
 set laststatus=2          " last window always has a statusline
@@ -86,12 +100,6 @@ set backspace=indent,eol,start
 
 let mapleader=","
 
-
-"make completion behave like an ide
-set completeopt=menu,menuone,longest
-set pumheight=15
-set ofu=syntaxcomplete#Complete
-
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
   \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
@@ -110,111 +118,20 @@ nnoremap <F6> <C-W>w
 " cycle backwards
 nnoremap <S-F6> <C-W>W
 
-let g:clang_complete_auto=1
-let g:clang_debug=1
-let g:clang_autoselect=1
-let g:clang_complete_copen=1
-let g:clang_use_library=1
-
 " SuperTab option for context aware completion
 let g:SuperTabDefaultCompletionType = "context"
-
-" clang_complete-getopts-ois
-let g:clang_auto_user_options = 'path, .clang_complete, clang, ios'
-
-
-" neocomplcache
-"let g:neocomplcache_enable_at_startup = 1
-
-" Use smartcase.
-"let g:neocomplcache_enable_smart_case = 1
-
-" Use camel case completion.
-"let g:neocomplcache_enable_camel_case_completion = 1
-
-" Use underscore completion.
-"let g:neocomplcache_enable_underbar_completion = 1
-
-"Sets minimum char length of syntax keyword.
-"let g:neocomplcache_min_syntax_length = 3
-
-" buffer file name pattern that locks neocomplcache. e.g. ku.vim or
-" fuzzyfinder 
-"let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-"inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-" <TAB>: completion.
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-"inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-"inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-"inoremap <expr><C-y>  neocomplcache#close_popup()
-"inoremap <expr><C-e>  neocomplcache#cancel_popup()
-
-
-"if !exists('g:neocomplcache_omni_patterns')
-"  let g:neocomplcache_omni_patterns = {}
-"endif
-
-"neocomplcache - clang_complete 
-"let g:neocomplcache_force_overwrite_completefunc=2
-
-" add clang_complete option
-let g:clang_complete_auto=1
-"
-"
-"cocoa.vim
-map <leader>l :ListMethods
 
 "ctrl-p
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 0       " start searching in current dir"
 
+set wildignore+=*/node_modules/*
+
+
+
 "tagbar
 nmap <Leader>b :TagbarToggle<CR>
-
-" add a definition for Objective-C to tagbar
-let g:tagbar_type_objc = {
-    \ 'ctagstype' : 'ObjectiveC',
-    \ 'kinds'     : [
-        \ 'i:interface',
-        \ 'I:implementation',
-        \ 'p:Protocol',
-        \ 'm:Object_method',
-        \ 'c:Class_method',
-        \ 'v:Global_variable',
-        \ 'F:Object field',
-        \ 'f:function',
-        \ 'p:property',
-        \ 't:type_alias',
-        \ 's:type_structure',
-        \ 'e:enumeration',
-        \ 'M:preprocessor_macro',
-    \ ],
-    \ 'sro'        : ' ',
-    \ 'kind2scope' : {
-        \ 'i' : 'interface',
-        \ 'I' : 'implementation',
-        \ 'p' : 'Protocol',
-        \ 's' : 'type_structure',
-        \ 'e' : 'enumeration'
-    \ },
-    \ 'scope2kind' : {
-        \ 'interface'      : 'i',
-        \ 'implementation' : 'I',
-        \ 'Protocol'       : 'p',
-        \ 'type_structure' : 's',
-        \ 'enumeration'    : 'e'
-    \ }
-\ }
-
-
-"look for tags in current dir, then fallback on ios repo
-:set tags=./tags;~/Code/ios/Tumbleweed/src/tags
-
 
 "use ack instead of grep
 set grepprg=ack\ --column\ --ignore-file=is:tags
